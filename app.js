@@ -19,11 +19,13 @@ const typeNames = {
   specs: "规格图",
   compare: "对比图",
   lifestyle: "场景图",
-  closing: "收尾图"
+  closing: "A+收束图",
 };
 
 function normalize(value) {
-  return String(value || "").trim().toLowerCase();
+  return String(value || "")
+    .trim()
+    .toLowerCase();
 }
 
 function getFileName(path) {
@@ -35,7 +37,9 @@ function getTypeLabel(type) {
 }
 
 function setupFilters() {
-  const types = [...new Set(items.map((item) => item.type).filter(Boolean))].sort();
+  const types = [
+    ...new Set(items.map((item) => item.type).filter(Boolean)),
+  ].sort();
 
   for (const type of types) {
     const option = document.createElement("option");
@@ -51,15 +55,20 @@ function setupFilters() {
 function matchesFilters(item) {
   const keyword = normalize(searchInput.value);
   const selectedType = typeFilter.value;
-  const haystack = normalize([
-    item.title,
-    item.type,
-    getTypeLabel(item.type),
-    item.description,
-    getFileName(item.image)
-  ].join(" "));
+  const haystack = normalize(
+    [
+      item.title,
+      item.type,
+      getTypeLabel(item.type),
+      item.description,
+      getFileName(item.image),
+    ].join(" "),
+  );
 
-  return (!keyword || haystack.includes(keyword)) && (selectedType === "all" || item.type === selectedType);
+  return (
+    (!keyword || haystack.includes(keyword)) &&
+    (selectedType === "all" || item.type === selectedType)
+  );
 }
 
 function createCard(item, index) {
