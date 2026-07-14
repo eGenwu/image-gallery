@@ -65,3 +65,23 @@ cd E:\e-commerce\github-pages-gallery
 ## 重要限制
 
 GitHub Pages 是静态托管，不能让访问者在网页上永久上传、删除或修改图片。需要在线后台管理时，应增加后端或云存储方案，例如 Supabase、Cloudinary、Firebase、GitHub App。不要把 GitHub Token 写进前端页面。
+
+## 推github
+
+在 PowerShell 中执行：
+
+```
+cd E:\e-commerce\github-pages-gallery
+
+git add index.html app.js styles.css gallery-data.js assets/images
+
+git commit -m "Update KALPORO product gallery"
+
+git push origin main
+```
+
+推送完成后，等待 GitHub Pages 部署，访问：
+
+https://egenwu.github.io/image-gallery/
+
+如果提示 GitHub 登录或身份验证，按提示完成即可。
