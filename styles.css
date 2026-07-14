@@ -239,6 +239,20 @@ select:focus {
   gap: 18px;
 }
 
+.gallery-group-title {
+  grid-column: 1 / -1;
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.gallery-group-title.is-separated {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
 .card {
   overflow: hidden;
   border: 1px solid var(--line);

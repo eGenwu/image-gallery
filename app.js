@@ -113,9 +113,37 @@ function createCard(item, index) {
   return article;
 }
 
+function createGroupHeading(type, isFirst) {
+  const heading = document.createElement("h3");
+  heading.className = "gallery-group-title";
+  if (!isFirst) heading.classList.add("is-separated");
+  heading.textContent = getTypeLabel(type);
+  return heading;
+}
+
 function renderGallery() {
   const visibleItems = items.filter(matchesFilters);
-  grid.replaceChildren(...visibleItems.map(createCard));
+  const groups = [];
+  const groupedItems = new Map();
+
+  for (const item of visibleItems) {
+    if (!groupedItems.has(item.type)) {
+      groupedItems.set(item.type, []);
+      groups.push(item.type);
+    }
+    groupedItems.get(item.type).push(item);
+  }
+
+  const rendered = [];
+  groups.forEach((type, groupIndex) => {
+    rendered.push(createGroupHeading(type, groupIndex === 0));
+    rendered.push(
+      ...groupedItems
+        .get(type)
+        .map((item, index) => createCard(item, groupIndex * 5 + index)),
+    );
+  });
+  grid.replaceChildren(...rendered);
   emptyState.hidden = visibleItems.length > 0;
 }
 
