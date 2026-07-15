@@ -12,6 +12,7 @@ const lightboxTitle = document.querySelector("#lightboxTitle");
 const lightboxDescription = document.querySelector("#lightboxDescription");
 const downloadLink = document.querySelector("#downloadLink");
 const closeLightbox = document.querySelector("#closeLightbox");
+const categoryLinks = document.querySelector("#categoryLinks");
 
 const typeNames = {
   hero: "主图",
@@ -36,6 +37,37 @@ function getTypeLabel(type) {
   return typeNames[type] || type || "未分类";
 }
 
+function getCategoryUrl(type) {
+  if (!type) return "./#gallery";
+  return `./?category=${encodeURIComponent(type)}#gallery`;
+}
+
+function getCategoryFromUrl() {
+  return new URLSearchParams(window.location.search).get("category") || "all";
+}
+
+function setupCategoryLinks(types) {
+  const allLink = document.createElement("a");
+  allLink.className = "category-link";
+  allLink.href = getCategoryUrl("");
+  allLink.textContent = `全部图片（${items.length}）`;
+  categoryLinks.append(allLink);
+
+  for (const type of types) {
+    const link = document.createElement("a");
+    link.className = "category-link";
+    link.href = getCategoryUrl(type);
+    link.textContent = `${getTypeLabel(type)}（${items.filter((item) => item.type === type).length}）`;
+    categoryLinks.append(link);
+  }
+
+  const selectedType = getCategoryFromUrl();
+  for (const link of categoryLinks.querySelectorAll("a")) {
+    const linkType = new URL(link.href).searchParams.get("category") || "all";
+    link.classList.toggle("is-active", linkType === selectedType);
+  }
+}
+
 function setupFilters() {
   const types = [
     ...new Set(items.map((item) => item.type).filter(Boolean)),
@@ -50,6 +82,11 @@ function setupFilters() {
 
   imageCount.textContent = String(items.length);
   typeCount.textContent = String(types.length);
+  setupCategoryLinks(types);
+  const category = getCategoryFromUrl();
+  if (category === "all" || types.includes(category)) {
+    typeFilter.value = category;
+  }
 }
 
 function matchesFilters(item) {
@@ -164,7 +201,15 @@ function openLightbox(item) {
 }
 
 searchInput.addEventListener("input", renderGallery);
-typeFilter.addEventListener("change", renderGallery);
+typeFilter.addEventListener("change", () => {
+  const type = typeFilter.value;
+  window.history.replaceState({}, "", getCategoryUrl(type === "all" ? "" : type));
+  for (const link of categoryLinks.querySelectorAll("a")) {
+    const linkType = new URL(link.href).searchParams.get("category") || "all";
+    link.classList.toggle("is-active", linkType === type);
+  }
+  renderGallery();
+});
 closeLightbox.addEventListener("click", () => lightbox.close());
 lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) {

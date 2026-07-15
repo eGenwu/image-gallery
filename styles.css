@@ -178,6 +178,33 @@ main {
   gap: 12px;
 }
 
+.category-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.category-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 16px;
+  color: var(--green);
+  background: rgba(255, 255, 255, 0.48);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.category-link:hover,
+.category-link.is-active {
+  border-color: var(--green);
+  color: #fff9ec;
+  background: var(--green);
+}
+
 .search,
 .select {
   display: grid;
