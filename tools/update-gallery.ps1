@@ -7,7 +7,10 @@ $ErrorActionPreference = "Stop"
 
 $resolvedImageDir = Resolve-Path -LiteralPath $ImageDir
 $items = Get-ChildItem -LiteralPath $resolvedImageDir -File |
-  Where-Object { $_.Extension -match '^\.(png|jpg|jpeg|webp|gif)$' } |
+  Where-Object {
+    $_.Extension -match '^\.(png|jpg|jpeg|webp|gif)$' -and
+    $_.Name -notmatch '(?i)(^q005[-_]|hand.?grip|fortalecedor|entrenador[-_]?dedos)'
+  } |
   Sort-Object Name |
   ForEach-Object {
     $baseName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name)
@@ -24,7 +27,7 @@ $items = Get-ChildItem -LiteralPath $resolvedImageDir -File |
       id = $baseName
       title = $baseName -replace '[-_]+', ' '
       type = $type
-      description = "请在 gallery-data.js 中补充这张图片的说明。"
+      description = "Add a description for this image in gallery-data.js."
       image = "./assets/images/$($_.Name)"
     }
   }
