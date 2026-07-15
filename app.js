@@ -15,12 +15,12 @@ const closeLightbox = document.querySelector("#closeLightbox");
 const categoryLinks = document.querySelector("#categoryLinks");
 
 const typeNames = {
-  hero: "主图",
-  feature: "卖点图",
-  specs: "规格图",
-  compare: "对比图",
-  lifestyle: "场景图",
-  closing: "A+收束图",
+  hero: "Hero Image",
+  feature: "Feature Image",
+  specs: "Specs Image",
+  compare: "Comparison Image",
+  lifestyle: "Lifestyle Image",
+  closing: "A+ Closing Image",
 };
 
 function normalize(value) {
@@ -34,7 +34,7 @@ function getFileName(path) {
 }
 
 function getTypeLabel(type) {
-  return typeNames[type] || type || "未分类";
+  return typeNames[type] || type || "Uncategorized";
 }
 
 function getCategoryUrl(type) {
@@ -50,14 +50,14 @@ function setupCategoryLinks(types) {
   const allLink = document.createElement("a");
   allLink.className = "category-link";
   allLink.href = getCategoryUrl("");
-  allLink.textContent = `全部图片（${items.length}）`;
+  allLink.textContent = `All Images (${items.length})`;
   categoryLinks.append(allLink);
 
   for (const type of types) {
     const link = document.createElement("a");
     link.className = "category-link";
     link.href = getCategoryUrl(type);
-    link.textContent = `${getTypeLabel(type)}（${items.filter((item) => item.type === type).length}）`;
+    link.textContent = `${getTypeLabel(type)} (${items.filter((item) => item.type === type).length})`;
     categoryLinks.append(link);
   }
 
@@ -116,7 +116,7 @@ function createCard(item, index) {
   const imageButton = document.createElement("button");
   imageButton.className = "image-button";
   imageButton.type = "button";
-  imageButton.setAttribute("aria-label", `预览 ${item.title}`);
+  imageButton.setAttribute("aria-label", `Preview ${item.title}`);
 
   const image = document.createElement("img");
   image.src = item.image;
@@ -136,7 +136,7 @@ function createCard(item, index) {
   title.textContent = item.title;
 
   const description = document.createElement("p");
-  description.textContent = item.description || "暂无说明。";
+  description.textContent = item.description || "No description available.";
 
   const filename = document.createElement("span");
   filename.className = "filename";
